@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  onibusgo:
+    image: inneobr/api-onibusgo:latest
+    container_name: api-onibusgo
+    restart: always
+    ports:
+      - '3333:3333'
+    environment:
+      - DATABASE_HOSTNAME=${DATABASE_HOSTNAME}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+    volumes: 
+      - ./onibusgo-data:/data
+     
