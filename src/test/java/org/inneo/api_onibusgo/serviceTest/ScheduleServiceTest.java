@@ -12,15 +12,15 @@ import org.inneo.api_onibusgo.domains.Schedule;
 import org.inneo.api_onibusgo.ferramentas.utils;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.inneo.api_onibusgo.repositories.ScheduleRep;
-import org.inneo.api_onibusgo.services.ScheduleService;
 
+import org.inneo.api_onibusgo.services.ScheduleService;
 import org.springframework.data.jpa.domain.Specification;
 import org.inneo.api_onibusgo.configuration.MessageException;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class ScheduleServiceTest {
 	@Mock
     private ScheduleRep scheduleRep;
