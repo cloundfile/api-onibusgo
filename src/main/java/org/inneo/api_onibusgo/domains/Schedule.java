@@ -39,7 +39,6 @@ public class Schedule {
 	private Long id;
 
 	@ManyToOne
-	@JsonBackReference
 	@JoinColumn(name = "rota", nullable = false)
 	private Rota rota;
 
