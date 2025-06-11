@@ -30,9 +30,9 @@ public class ScheduleController {
 	
 	@PostMapping()
 	@Operation(summary = "Cadastra novos horários")
-	public ResponseEntity<?> create(@Valid @RequestBody Schedule schedule) {
+	public ResponseEntity<?> create(@Valid @RequestBody Schedule request) {
 	    try {		
-	        return ResponseEntity.ok(scheduleService.create(schedule));
+	        return ResponseEntity.ok(scheduleService.create(request));
 	    } catch (Exception ex) {
 	        return ResponseEntity.badRequest().body(ex.getMessage());
 	    }
@@ -40,9 +40,9 @@ public class ScheduleController {
 	
 	@PutMapping()
 	@Operation(summary = "Atualiza um horário pelo id")
-	public ResponseEntity<?> update(@Valid @RequestBody Schedule schedule) {
+	public ResponseEntity<?> update(@Valid @RequestBody Schedule request) {
 	    try {		
-	        return ResponseEntity.ok(scheduleService.update(schedule));
+	        return ResponseEntity.ok(scheduleService.update(request));
 	    } catch (Exception ex) {
 	        return ResponseEntity.badRequest().body(ex.getMessage());
 	    }
@@ -63,11 +63,22 @@ public class ScheduleController {
 		}
 	}
 	
-	@GetMapping("/findby")
-	@Operation(summary = "Listar todos os horários pelo id ou codigo")
-	public ResponseEntity<?> findBy(@RequestParam(required = true) String codigo) {
+	@GetMapping("/findById")
+	@Operation(summary = "Retorna um horários pelo id")
+	public ResponseEntity<?> findById(@RequestParam(required = true) long id) {
 		try {
-			List<Schedule> response = scheduleService.findBy(codigo);
+			Schedule response = scheduleService.findById(id);
+			return ResponseEntity.ok(response);
+		} catch (Exception ex) {
+			return ResponseEntity.badRequest().body(ex.getMessage());
+		}
+	}
+	
+	@GetMapping("/findByRota")
+	@Operation(summary = "Listar todos os horários pelo id da rota")
+	public ResponseEntity<?> findByRota(@RequestParam(required = true) long id) {
+		try {
+			List<Schedule> response = scheduleService.findByRota(id);
 			if (response.isEmpty()) {
 				return ResponseEntity.noContent().build();
 			} else {

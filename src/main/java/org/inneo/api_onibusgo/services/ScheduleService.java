@@ -1,28 +1,33 @@
 package org.inneo.api_onibusgo.services;
 
 import java.util.List;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.BeanUtils;
+import java.util.Optional;
 
+import lombok.AllArgsConstructor;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.inneo.api_onibusgo.domains.Rota;
 import org.inneo.api_onibusgo.domains.Schedule;
 
 import org.inneo.api_onibusgo.ferramentas.utils;
 import org.inneo.api_onibusgo.specs.ScheduleSpec;
+import org.inneo.api_onibusgo.repositories.RotaRep;
 import org.inneo.api_onibusgo.repositories.ScheduleRep;
-
-import org.inneo.api_onibusgo.configuration.MessageException;
 
 @Service 
 @Transactional
+@AllArgsConstructor
 public class ScheduleService {
+	private final RotaRep rotaRep;
 	private final ScheduleRep scheduleRep;
 	
-	public ScheduleService(ScheduleRep scheduleRep) {
-        this.scheduleRep = scheduleRep;
-    }
-	
 	public Schedule create(Schedule request) {		
+		Optional<Rota> rota = rotaRep.findById(request.getRota().getId());	    
+	    if (rota.isEmpty())throw new EntityNotFoundException("Rota not found with ID: " + request.getRota().getId());
+	    request.setRota(rota.get());
 	    return scheduleRep.saveAndFlush(request);
 	}
 	
@@ -34,14 +39,20 @@ public class ScheduleService {
 	}
 	
 	public List<Schedule> findAll() {
-		if(utils.isWeekend()) throw new MessageException("Horários de transporte não estão disponíveis durante os finais de semana.");
+		if(utils.isWeekend()) throw new RuntimeException("Serviço indisponível nesta data.");
 		return scheduleRep.findAll();
 	}
 	
-	public List<Schedule> findBy(String codigo) {
-		List<Schedule> response = scheduleRep.findAll(ScheduleSpec.doFilter(codigo));
+	public Schedule findById(Long id) {
+		Schedule response= scheduleRep.findById(id).orElseThrow(() -> 
+		new EntityNotFoundException("Schedule not found with id"));
 		return response;
 	}
+	
+	public List<Schedule> findByRota(Long id) {
+		List<Schedule> response = scheduleRep.findAll(ScheduleSpec.daRota(id));
+		return response;
+	}	
 	
 	public void delete(Long id) {	
 		Schedule schedule = scheduleRep.getReferenceById(id);

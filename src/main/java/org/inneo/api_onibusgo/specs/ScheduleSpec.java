@@ -1,25 +1,19 @@
 package org.inneo.api_onibusgo.specs;
 
 import jakarta.persistence.criteria.*;
-import org.springframework.util.StringUtils;
+import org.inneo.api_onibusgo.domains.Rota;
 import org.inneo.api_onibusgo.domains.Schedule;
 import org.springframework.data.jpa.domain.Specification;
 
-public class ScheduleSpec {	
-	public static Specification<Schedule> doFilter(String codigo){
-        return (root, query, builder) -> {
-            if(StringUtils.hasText(codigo)) {
-            	Long id = null;
-            	
-            	if(codigo.matches("^\\d+$")) {
-            		id = Long.parseLong(codigo);
-            	}  
-            	
-            	Predicate predicateFieldMatricula = builder.equal(root.get("id"), id);
-            	Predicate predicateFieldNome = builder.like(builder.upper(root.get("codigo")), "%" + codigo.toUpperCase() + "%");            	
-            	return builder.or(predicateFieldMatricula, predicateFieldNome);
+public class ScheduleSpec {		
+	public static Specification<Schedule> daRota(Long idRota) {
+		return (root, query, builder) -> {
+            if(idRota != null) {
+                query.distinct(true);
+                Join<Schedule, Rota> rota = root.join("rota");
+                return builder.equal(rota.get("id"), idRota);
             }
             return builder.and(new Predicate[0]);
         };
-    }
+	}
 }
