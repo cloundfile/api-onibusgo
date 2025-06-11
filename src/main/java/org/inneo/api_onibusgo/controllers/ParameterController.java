@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
-@RequestMapping("/v1/parametro")
-@Tag(name = "Parâmetros", description = "Endpoints da API de parâmetros")
+@RequestMapping("/v1/parameters")
+@Tag(name = "Parameter", description = "Endpoints da API de parameter")
 public class ParameterController {
 	private final ParameterService parameterService;
 	
@@ -64,31 +64,32 @@ public class ParameterController {
 		} catch (Exception ex) {
 			return ResponseEntity.badRequest().body(ex.getMessage());
 		}
-	}
+	}	
 	
-	@GetMapping("/findbyId")
-	@Operation(summary = "Listar todos os parâmetro id ou codigo")
-	public ResponseEntity<?> findById(
-			@RequestParam(required = true) String page,
-			@RequestParam(required = true) String field) {
+	
+	@GetMapping("/find")
+	@Operation(summary = "Retorna um parâmetro pelo id")
+	public ResponseEntity<?> findID(@RequestParam(required = true) Long id) {
 		try {
-			List<Parameter> response = parameterService.findBy(page, field);
-			if (response.isEmpty()) {
-				return ResponseEntity.noContent().build();
-			} else {
-				return ResponseEntity.ok(response);
-			}
+			Parameter response = parameterService.findID(id);
+			return ResponseEntity.ok(response);
 		} catch (Exception ex) {
 			return ResponseEntity.badRequest().body(ex.getMessage());
 		}
 	}
 	
-	@GetMapping("/findby")
-	@Operation(summary = "Retorna um parâmetro pelo id")
-	public ResponseEntity<?> findBy(@RequestParam(required = true) Long id) {
+	@GetMapping("/findPage")
+	@Operation(summary = "Listar todos os parâmetro da pagina e campo")
+	public ResponseEntity<?> findById(
+			@RequestParam(required = true) String page,
+			@RequestParam(required = true) String field) {
 		try {
-			Parameter response = parameterService.findById(id);
-			return ResponseEntity.ok(response);
+			List<Parameter> response = parameterService.findByPage(page, field);
+			if (response.isEmpty()) {
+				return ResponseEntity.noContent().build();
+			} else {
+				return ResponseEntity.ok(response);
+			}
 		} catch (Exception ex) {
 			return ResponseEntity.badRequest().body(ex.getMessage());
 		}

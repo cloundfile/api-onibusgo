@@ -66,11 +66,11 @@ public class RotaController {
 		}
 	}
 	
-	@GetMapping("/findbyId")
+	@GetMapping("/find")
 	@Operation(summary = "Busca uma rota pelo id")
-	public ResponseEntity<?> findById(@RequestParam(required = true) Long id) {
+	public ResponseEntity<?> findID(@RequestParam(required = true) Long id) {
 		try {
-			Rota response = rotaService.findById(id);
+			Rota response = rotaService.findID(id);
 			return ResponseEntity.ok(response);
 		} catch (Exception ex) {
 			return ResponseEntity.badRequest().body(ex.getMessage());

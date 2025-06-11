@@ -1,6 +1,8 @@
 package org.inneo.api_onibusgo.services;
 
 import java.util.List;
+
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
@@ -33,12 +35,13 @@ public class ParameterService {
 		return parameterRep.findAll();
 	}
 	
-	public Parameter findById(Long id) {
-		Parameter response = parameterRep.getReferenceById(id);
+	public Parameter findID(Long id) {
+		Parameter response = parameterRep.findById(id).orElseThrow(() -> 
+		new EntityNotFoundException("Not found with id"));
 		return response;
 	}
 	
-	public List<Parameter> findBy(String page, String field) {
+	public List<Parameter> findByPage(String page, String field) {
 		List<Parameter> response = parameterRep.findAll(ParameterSpec.doFilter(page, field));
 		return response;
 	}

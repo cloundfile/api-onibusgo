@@ -2,6 +2,7 @@ package org.inneo.api_onibusgo.services;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 import org.inneo.api_onibusgo.domains.Rota;
@@ -27,8 +28,9 @@ public class RotaServices {
 		
 	}
 	
-	public Rota findById(Long id) {
-		Rota response = rotaRep.getReferenceById(id);
+	public Rota findID(Long id) {
+		Rota response = rotaRep.findById(id).orElseThrow(() -> 
+		new EntityNotFoundException("Not found with id"));
 		return response;
 	}
 

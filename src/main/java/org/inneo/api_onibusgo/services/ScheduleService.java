@@ -43,13 +43,13 @@ public class ScheduleService {
 		return scheduleRep.findAll();
 	}
 	
-	public Schedule findById(Long id) {
+	public Schedule findID(Long id) {
 		Schedule response= scheduleRep.findById(id).orElseThrow(() -> 
-		new EntityNotFoundException("Schedule not found with id"));
+		new EntityNotFoundException("Not found with id"));
 		return response;
 	}
 	
-	public List<Schedule> findByRota(Long id) {
+	public List<Schedule> findRota(Long id) {
 		List<Schedule> response = scheduleRep.findAll(ScheduleSpec.daRota(id));
 		return response;
 	}	

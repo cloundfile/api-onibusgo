@@ -2,18 +2,22 @@ package org.inneo.api_onibusgo.controllers;
 
 import java.util.List;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.ResponseEntity;
 import org.inneo.api_onibusgo.domains.Schedule;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.inneo.api_onibusgo.services.ScheduleService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
+
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -63,22 +67,22 @@ public class ScheduleController {
 		}
 	}
 	
-	@GetMapping("/findById")
+	@GetMapping("/find")
 	@Operation(summary = "Retorna um horários pelo id")
 	public ResponseEntity<?> findById(@RequestParam(required = true) long id) {
 		try {
-			Schedule response = scheduleService.findById(id);
+			Schedule response = scheduleService.findID(id);
 			return ResponseEntity.ok(response);
 		} catch (Exception ex) {
 			return ResponseEntity.badRequest().body(ex.getMessage());
 		}
 	}
 	
-	@GetMapping("/findByRota")
+	@GetMapping("/findRota")
 	@Operation(summary = "Listar todos os horários pelo id da rota")
-	public ResponseEntity<?> findByRota(@RequestParam(required = true) long id) {
+	public ResponseEntity<?> findRota(@RequestParam(required = true) long id) {
 		try {
-			List<Schedule> response = scheduleService.findByRota(id);
+			List<Schedule> response = scheduleService.findRota(id);
 			if (response.isEmpty()) {
 				return ResponseEntity.noContent().build();
 			} else {
