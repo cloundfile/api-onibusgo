@@ -24,8 +24,8 @@ public class ParameterService {
 	}
 	
 	public Parameter update(Parameter request) {	
-		Parameter parameter = parameterRep.getReferenceById(request.getId());		
-		if(parameter == null)  throw new RuntimeException("Parameter not found");
+		Parameter parameter = parameterRep.findById(request.getId())
+		.orElseThrow(() -> new EntityNotFoundException("ID Not found!"));
 		BeanUtils.copyProperties(request, parameter);
 		return parameterRep.saveAndFlush(parameter);
 		
@@ -36,8 +36,8 @@ public class ParameterService {
 	}
 	
 	public Parameter findID(Long id) {
-		Parameter response = parameterRep.findById(id).orElseThrow(() -> 
-		new EntityNotFoundException("Not found with id"));
+		Parameter response = parameterRep.findById(id)
+		.orElseThrow(() -> new EntityNotFoundException("ID not found!"));
 		return response;
 	}
 	
@@ -47,7 +47,8 @@ public class ParameterService {
 	}
 	
 	public void delete(Long id) {	
-		Parameter parametro = parameterRep.getReferenceById(id);
-		if(parametro != null) parameterRep.deleteById(parametro.getId());
+		Parameter parametro = parameterRep.findById(id)
+		.orElseThrow(() -> new EntityNotFoundException("ID Not found!"));
+		parameterRep.deleteById(parametro.getId());
 	}
 }

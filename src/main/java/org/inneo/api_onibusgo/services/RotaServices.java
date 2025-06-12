@@ -21,16 +21,16 @@ public class RotaServices {
 	}
 	
 	public Rota update(Rota request) {	
-		Rota rota = rotaRep.getReferenceById(request.getId());		
-		if(rota == null)  throw new RuntimeException("Rota not found");
+		Rota rota = rotaRep.findById(request.getId())
+		.orElseThrow(() -> new EntityNotFoundException("ID Not found!"));
 		BeanUtils.copyProperties(request, rota);
 		return rotaRep.saveAndFlush(rota);
 		
 	}
 	
 	public Rota findID(Long id) {
-		Rota response = rotaRep.findById(id).orElseThrow(() -> 
-		new EntityNotFoundException("Not found with id"));
+		Rota response = rotaRep.findById(id)
+		.orElseThrow(() -> new EntityNotFoundException("ID Not found!"));
 		return response;
 	}
 
@@ -39,7 +39,8 @@ public class RotaServices {
 	}	
 	
 	public void delete(Long id) {	
-		Rota response = rotaRep.getReferenceById(id);
+		Rota response = rotaRep.findById(id)
+		.orElseThrow(() -> new EntityNotFoundException("ID Not found!"));
 		if(response != null) rotaRep.deleteById(response.getId());
 	}
 }
