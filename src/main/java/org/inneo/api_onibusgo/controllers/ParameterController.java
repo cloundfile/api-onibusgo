@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ParameterController {
 	private final ParameterService parameterService;
 	
-	@PostMapping()
+	@PostMapping("/create")
 	@Operation(summary = "Cadastra novos parâmetro")
 	public ResponseEntity<?> create(@Valid @RequestBody Parameter request) {
 	    try {		
@@ -41,7 +41,7 @@ public class ParameterController {
 	    }
 	}
 	
-	@PutMapping()
+	@PutMapping("/update")
 	@Operation(summary = "Atualiza um horário pelo id")
 	public ResponseEntity<?> update(@Valid @RequestBody Parameter request) {
 	    try {		
@@ -51,7 +51,7 @@ public class ParameterController {
 	    }
 	}
 
-	@GetMapping()
+	@GetMapping("/findall")
 	@Operation(summary = "Listar todos os parâmetro")
 	public ResponseEntity<?> findAll() {
 		try {
@@ -67,7 +67,7 @@ public class ParameterController {
 	}	
 	
 	
-	@GetMapping("/find")
+	@GetMapping("/findId")
 	@Operation(summary = "Retorna um parâmetro pelo id")
 	public ResponseEntity<?> findID(@RequestParam(required = true) Long id) {
 		try {
@@ -95,7 +95,7 @@ public class ParameterController {
 		}
 	}
 	
-	@DeleteMapping()
+	@DeleteMapping("/delete")
 	@Operation(summary = "Delete um parâmetro pelo id")
 	public ResponseEntity<?> delete(@RequestParam(required = true) Long id) {
 	    try {

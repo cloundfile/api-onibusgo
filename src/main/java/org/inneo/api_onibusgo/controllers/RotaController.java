@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RotaController {
 	private RotaServices rotaService;
 	
-	@PostMapping()
+	@PostMapping("/create")
 	@Operation(summary = "Cadastra novas rotas")
 	public ResponseEntity<?> create(@Valid @RequestBody Rota request) {
 	    try {		
@@ -41,7 +41,7 @@ public class RotaController {
 	    }
 	}
 	
-	@PutMapping()
+	@PutMapping("/update")
 	@Operation(summary = "Atualiza uma rota pelo id")
 	public ResponseEntity<?> update(@Valid @RequestBody Rota request) {
 	    try {		
@@ -51,7 +51,7 @@ public class RotaController {
 	    }
 	}
 
-	@GetMapping()
+	@GetMapping("/findall")
 	@Operation(summary = "Listar todas as rotas")
 	public ResponseEntity<?> findAll() {
 		try {
@@ -66,7 +66,7 @@ public class RotaController {
 		}
 	}
 	
-	@GetMapping("/find")
+	@GetMapping("/findId")
 	@Operation(summary = "Busca uma rota pelo id")
 	public ResponseEntity<?> findID(@RequestParam(required = true) Long id) {
 		try {
@@ -77,7 +77,7 @@ public class RotaController {
 		}
 	}
 	
-	@DeleteMapping()
+	@DeleteMapping("/delete")
 	@Operation(summary = "Delete uma rota pelo id")
 	public ResponseEntity<?> delete(@RequestParam(required = true) Long id) {
 	    try {

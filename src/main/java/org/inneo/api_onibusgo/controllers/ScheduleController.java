@@ -32,7 +32,7 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 	
-	@PostMapping()
+	@PostMapping("/create")
 	@Operation(summary = "Cadastra novos horários")
 	public ResponseEntity<?> create(@Valid @RequestBody Schedule request) {
 	    try {		
@@ -42,7 +42,7 @@ public class ScheduleController {
 	    }
 	}
 	
-	@PutMapping()
+	@PutMapping("/update")
 	@Operation(summary = "Atualiza um horário pelo id")
 	public ResponseEntity<?> update(@Valid @RequestBody Schedule request) {
 	    try {		
@@ -52,7 +52,7 @@ public class ScheduleController {
 	    }
 	}
 
-	@GetMapping()
+	@GetMapping("/findall")
 	@Operation(summary = "Listar todos os horários")
 	public ResponseEntity<?> findAll() {
 		try {
@@ -67,7 +67,7 @@ public class ScheduleController {
 		}
 	}
 	
-	@GetMapping("/find")
+	@GetMapping("/findId")
 	@Operation(summary = "Retorna um horários pelo id")
 	public ResponseEntity<?> findById(@RequestParam(required = true) long id) {
 		try {
@@ -93,7 +93,7 @@ public class ScheduleController {
 		}
 	}
 	
-	@DeleteMapping()
+	@DeleteMapping("/delete")
 	@Operation(summary = "Delete um horário pelo id")
 	public ResponseEntity<?> delete(@RequestParam(required = true) Long id) {
 	    try {
